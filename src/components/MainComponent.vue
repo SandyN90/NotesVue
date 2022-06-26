@@ -1,12 +1,13 @@
 <template>
+  <div class="text-4xl">
+    <p>{{words}}</p>
+  </div>
   <button @click="startRecognition">Start</button>
   <button @click="abortRecognition">Abort</button>
-  {{words}}
 </template>
 
 <script>
 
-// import {speechToText,} from '@/components/script/speechRecognition.js'
 export default {
   name: 'HelloWorld',
   props: {
