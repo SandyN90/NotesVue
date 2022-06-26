@@ -21,16 +21,21 @@ recognition.maxAlternatives = 1;
 const speechToText = function () {
     recognition.start();
     console.log("I am ready to recognize");
+    let resultWord;
+    recognition.onresult = (e) => {
+        resultWord = e.results[0][0].transcript;
+    }
+    return resultWord;
 };
 
 
 // recieving results to recognize
-const recognizeResult = recognition.onresult = (event) => {
-    let word = event.results[0][0].transcript;
-    console.log("words", word);
-    console.log('Confidence: ' + event.results[0][0].confidence);
-    return word
-}
+// const recognizeResult = recognition.onresult = (event) => {
+//     let word = event.results[0][0].transcript;
+//     console.log("words", word);
+//     console.log('Confidence: ' + event.results[0][0].confidence);
+//     return word
+// }
 
 // Recognition stop on speech end
 const recognitionStop = recognition.onspeechend = function () {
@@ -49,4 +54,4 @@ const errorDisplay = recognition.onerror = function (event) {
     console.log(event);
     // diagnostic.textContent = 'Error occurred in recognition: ' + event.error;
 }
-export { speechToText, recognizeResult, recognitionStop, noMatchesResult, errorDisplay };
+export { speechToText, recognitionStop, noMatchesResult, errorDisplay };
