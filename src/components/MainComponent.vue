@@ -1,9 +1,9 @@
 <template>
-  <div class="text-4xl">
-    <p>{{words}}</p>
+  <div class="text-lg">
+    <p>{{words.join(' ')}}</p>
   </div>
-  <button @click="startRecognition">Start</button>
-  <button @click="abortRecognition">Abort</button>
+  <button class="border border-transparent mr-4 bg-slate-200 rounded-md px-4 py-2" @click="startRecognition">Start</button>
+  <button class="border border-transparent mr-4 bg-slate-200 rounded-md px-4 py-2" @click="abortRecognition">Abort</button>
 </template>
 
 <script>
@@ -15,7 +15,7 @@ export default {
   },
   data() {
     return {
-      words: '',
+      words: [],
     };
   },
   methods: {
@@ -44,8 +44,9 @@ export default {
 
       // recieving results to recognize
       recognition.onresult = (event) => {
-        this.words = event.results[0][0].transcript;
-        // console.log("words", word);
+        let word = event.results[0][0].transcript;
+        this.words.push(word);
+        
         console.log('Confidence: ' + event.results[0][0].confidence);
         // return word
       }
