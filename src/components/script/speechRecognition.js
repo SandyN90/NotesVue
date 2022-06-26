@@ -26,8 +26,6 @@ const speechToText = function () {
 
 // recieving results to recognize
 const recognizeResult = recognition.onresult = (event) => {
-    console.log(event);
-
     let word = event.results[0][0].transcript;
     console.log("words", word);
     console.log('Confidence: ' + event.results[0][0].confidence);
