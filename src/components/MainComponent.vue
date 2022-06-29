@@ -1,13 +1,16 @@
 <template>
-  <div class="text-lg">
-    <p>{{words.join(' ')}}</p>
+  <div class="bg-blue-400 py-4">
+    <button class="border border-transparent mr-4 bg-slate-200 rounded-md px-4 py-2" @click="startRecognition">Start</button>
+    <button class="border border-transparent mr-4 bg-slate-200 rounded-md px-4 py-2" @click="abortRecognition">Abort</button>
   </div>
-  <button class="border border-transparent mr-4 bg-slate-200 rounded-md px-4 py-2" @click="startRecognition">Start</button>
-  <button class="border border-transparent mr-4 bg-slate-200 rounded-md px-4 py-2" @click="abortRecognition">Abort</button>
+  <div class="text-lg text-left bg-slate-200 h-full">
+    <p class="ml-8 mt-8">{{words.join(' ')}}</p>
+  </div>
 </template>
 
 <script>
 
+import {selectLastWord, selectWords} from '@/components/script/genricHandler.js'
 export default {
   name: 'HelloWorld',
   props: {
@@ -16,9 +19,21 @@ export default {
   data() {
     return {
       words: [],
+      word: '',
+      text: "Hello planet earth, you are a great planet.",
+
     };
   },
+  created() {
+    selectLastWord(this.text);
+    selectWords(this.text, 5);
+
+  },
   methods: {
+    // Delete last word of the sentence
+    DeleteWord(val) {
+      console.log("value", val);
+    },
     startRecognition() {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
@@ -46,7 +61,10 @@ export default {
       recognition.onresult = (event) => {
         let word = event.results[0][0].transcript;
         this.words.push(word);
-        
+        if(word.toUpperCase() === "DELETE") {
+          console.log("true");
+          this.DeleteWord(word);
+        }
         console.log('Confidence: ' + event.results[0][0].confidence);
         // return word
       }
